@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mkdocs-treeblocks"
+version = "0.0.0"
+description = "A MkDocs extension for rendering tree-style code blocks and directory structures."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Joshua Mullenberg" }
+]
+keywords = ["mkdocs", "markdown", "documentation", "tree", "directory-structure"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Framework :: MkDocs",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+  "mkdocs>=1.6",
+  "markdown>=3.6",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
