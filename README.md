@@ -65,24 +65,32 @@ mkdocs-project/
 ---
 ## Project Roadmap
 
-#### Phase 1: Scaffold and concept
-- Create the project structure
-- Document the purpose and syntax
-- Add placeholder tests
-- Make the first commit
+#### <s>Phase 1: Scaffold and concept</s>
+- <s>Create the project</s>
+- <s>Setup GitHub repository</s>
+- <s>Document the purpose and syntax</s>
+- <s>Add placeholder tests</s>
+- <s>Initial README
+- <s>Make the first commit</s>
  
-#### Phase 2: Minimal Rendering Experiment
-- Choose the first supported syntax
-- Parse a small tree block
-- Render predictable HTML
+#### <s>Phase 2: Minimal Rendering Experiment</s>
+- <s>Choose the first supported syntax</s>
+- <s>Parse a small tree block</s>
+- <s>Add parser tests</s>
+- <s>Incremental documentation in /docs/</s>
+
+#### Phase 3: Minimal Renderer Behavior
+- Define renderer MVP behavior
 - Add basic tests
+- Implement a plain Python renderer.
+- Incremental documentation update in /docs/
  
-#### Phase 3: MkDocs Integration
+#### Phase 4: MkDocs Integration
 - Decide whether this should be a Markdown extension, MkDocs plugin or a MkDocs hook.
 - Add a minimal MkDocs demo page
 - Test with Material for MkDocs
 
-#### Phase 4: Documentation and Polish
+#### Phase 5: Documentation and Polish
 - Add usage documentation
 - Add installation instructions
 - Add examples
