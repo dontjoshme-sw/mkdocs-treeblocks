@@ -61,7 +61,7 @@ Keep `main` clean.
 Use feature branches for task groups:
 
 ```bash
-git switch -c parser-mvp
+git switch -c feature/task-name
 ```
 
 Run tests before committing:
@@ -93,7 +93,7 @@ MkDocs integration:
   Finds tree blocks during a MkDocs build and replaces them.
 ```
 
-The current implementation includes the parser MVP only.
+The current implementation includes the parser MVP and a plain-text renderer MVP.
 
 ## Parser MVP
 
@@ -128,6 +128,35 @@ The parser rejects:
 - mixed tabs and spaces
 - partial-space indentation that is not a multiple of four
 
+---
+## Renderer MVP
+
+The renderer lives in:
+
+```text
+src/mkdocs_treeblocks/renderer.py
+```
+
+It currently provides:
+
+```python
+render_tree(root: TreeNode, *, directory_slashes: bool = True) -> str
+```
+
+The renderer supports:
+
+- plain-text tree output
+- Unicode tree connectors
+- nested guide lines
+- display-only trailing slashes for nodes with children
+- avoiding doubled slashes when a node already ends with `/`
+- disabling inferred directory slashes with `directory_slashes=False`
+
+Directory slash behavior belongs to rendering, not parsing. The parser preserves the original node text, and the renderer decides how to display parent nodes.
+
+The renderer does not inspect the real filesystem. A node is displayed as a directory only when it has child nodes.
+
+---
 ## Documentation approach
 
 For now, project documentation should use GitHub-rendered Markdown files instead of a MkDocs site.

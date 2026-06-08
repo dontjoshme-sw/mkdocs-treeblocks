@@ -59,8 +59,30 @@ mkdocs-project/
     </tr>
 </table>
 
-> [!Note]
-> This project is currently experimental and in the planning / scaffolding stage.  Syntax is subject to change.
+> [!NOTE]
+> This project is currently experimental. The parser and plain-text renderer MVP are implemented and tested, but MkDocs integration has not been added yet. Syntax and public APIs are still subject to change.
+
+---
+## Current implementation status
+
+Implemented:
+
+- Parse indented text into a tree structure with `parse_tree()`.
+- Render a parsed tree as plain text with `render_tree()`.
+- Use Unicode tree connectors such as `├──`, `└──`, and `│`.
+- Add display-only trailing slashes to nodes with children.
+- Preserve original node text in the parser.
+- Allow inferred directory slashes to be disabled with `directory_slashes=False`.
+- Test parser and renderer behavior with `pytest`.
+
+Not implemented yet:
+
+- MkDocs hook, plugin, or Markdown extension integration.
+- Markdown document scanning for tree blocks.
+- HTML rendering.
+- CSS styling.
+- Configuration through `mkdocs.yml`.
+- Filesystem inspection.
 
 ---
 ## Project Roadmap
@@ -79,16 +101,17 @@ mkdocs-project/
 - <s>Add parser tests</s>
 - <s>Incremental documentation in /docs/</s>
 
-#### Phase 3: Minimal Renderer Behavior
-- Define renderer MVP behavior
-- Add basic tests
-- Implement a plain Python renderer.
-- Incremental documentation update in /docs/
+#### <s>Phase 3: Minimal Renderer Behavior</s>
+- <s>Define renderer MVP behavior</s>
+- <s>Add renderer tests</s>
+- <s>Implement a plain Python renderer</s>
+- <s>Document renderer behavior in README.md and docs/</s>
  
 #### Phase 4: MkDocs Integration
-- Decide whether this should be a Markdown extension, MkDocs plugin or a MkDocs hook.
-- Add a minimal MkDocs demo page
-- Test with Material for MkDocs
+- Decide whether this should be a Markdown extension, MkDocs plugin, or MkDocs hook.
+- Detect and transform tree blocks in Markdown.
+- Add a minimal MkDocs demo page.
+- Test with Material for MkDocs.
 
 #### Phase 5: Documentation and Polish
 - Add usage documentation
