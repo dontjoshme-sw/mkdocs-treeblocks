@@ -2,7 +2,7 @@
 
 This page describes the planned author-facing syntax for `mkdocs-treeblocks`.
 
-The current implementation includes only the parser MVP. Rendering and MkDocs integration are planned but not implemented yet.
+The current implementation includes the parser MVP and a plain-text renderer MVP. MkDocs integration is planned but not implemented yet.
 
 ## Basic idea
 
@@ -15,7 +15,7 @@ docs
 . . . . . . . . install.md
 ```
 
-The parser reads the indentation and turns the text into a tree structure:
+The parser reads the indentation and turns the text into a tree structure. The renderer can then display that structure as a plain-text tree:
 
 ```text
 docs
@@ -24,7 +24,6 @@ docs
     └── install.md
 ```
 
-The rendered output layer is planned for a later task group.
 
 ## Indentation
 
@@ -167,7 +166,7 @@ guides
 install.md
 ```
 
-A later renderer may choose to display parent nodes with trailing slashes:
+The renderer displays nodes with children as directories by default:
 
 ```text
 docs/
@@ -175,7 +174,23 @@ docs/
     └── install.md
 ```
 
-That behavior is planned, but not implemented in the parser itself.
+That behavior is implemented in the renderer, not the parser.
+
+To disable inferred directory slashes:
+
+```python
+render_tree(root, directory_slashes=False)
+```
+
+With slash inference disabled, the same tree renders as:
+
+```text
+docs
+└── guides
+    └── install.md
+```
+
+The renderer does not inspect the real filesystem. A node is displayed as a directory only when it has child nodes.
 
 ## Planned MkDocs syntax
 
