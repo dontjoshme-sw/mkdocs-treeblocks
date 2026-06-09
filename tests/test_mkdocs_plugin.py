@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pytest
 from mkdocs.commands.build import build
 from mkdocs.config import load_config
+from mkdocs.exceptions import PluginError
 
 
 def test_mkdocs_plugin_transforms_tree_blocks(tmp_path: Path) -> None:
@@ -26,3 +28,18 @@ def test_mkdocs_plugin_transforms_tree_blocks(tmp_path: Path) -> None:
     assert "└── guides/" in html
     assert "└── install.md" in html
     assert "After the tree block." in html
+
+
+def test_mkdocs_plugin_wraps_tree_parse_errors() -> None:
+    from mkdocs_treeblocks.plugin import TreeblocksPlugin
+
+    plugin = TreeblocksPlugin()
+
+    markdown = """```tree
+docs
+   bad-indent.md
+```
+"""
+
+    with pytest.raises(PluginError, match="treeblocks failed to parse a tree block"):
+        plugin.on_page_markdown(markdown)
