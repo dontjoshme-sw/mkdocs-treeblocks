@@ -82,6 +82,8 @@ The project should keep the core logic independent from MkDocs.
 
 Planned layers:
 
+Current layers:
+
 ```text
 Parser:
   Turns indented source text into a tree structure.
@@ -89,11 +91,14 @@ Parser:
 Renderer:
   Turns the tree structure into formatted tree output.
 
+Markdown transformer:
+  Finds fenced Markdown `tree` blocks and replaces them with rendered `text` blocks.
+
 MkDocs integration:
-  Finds tree blocks during a MkDocs build and replaces them.
+  Planned later. Connects the plain Python transformer to MkDocs builds.
 ```
 
-The current implementation includes the parser MVP and a plain-text renderer MVP.
+The current implementation includes the parser MVP, a plain-text renderer MVP, and a plain Python Markdown transformer MVP.
 
 ## Parser MVP
 
@@ -155,6 +160,33 @@ The renderer supports:
 Directory slash behavior belongs to rendering, not parsing. The parser preserves the original node text, and the renderer decides how to display parent nodes.
 
 The renderer does not inspect the real filesystem. A node is displayed as a directory only when it has child nodes.
+
+---
+---
+
+## Markdown transformer MVP
+
+The Markdown transformer lives in: `src/mkdocs_treeblocks/transform.py`.
+
+It currently provides:
+
+```python
+    transform_markdown(markdown: str) -> str
+```
+
+The transformer supports:
+
+- finding fenced Markdown code blocks marked as tree
+- parsing the inner tree source with parse_tree()
+- rendering the parsed tree with render_tree()
+- replacing the source block with a fenced text code block
+- preserving Markdown outside transformed tree blocks
+- leaving non-tree fenced code blocks unchanged
+
+Invalid tree indentation raises TreeParseError from the parser. MkDocs-specific error wrapping with page and line context is planned for a later integration step
+
+///
+
 
 ---
 ## Documentation approach
