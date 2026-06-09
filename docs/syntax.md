@@ -1,4 +1,5 @@
 # Tree block syntax
+_Revised on: 06-09-2026 by: Joshua Mullenberg_
 
 This page describes the planned author-facing syntax for `mkdocs-treeblocks`.
 

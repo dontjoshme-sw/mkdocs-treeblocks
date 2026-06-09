@@ -1,4 +1,5 @@
 # Development notes
+_Revised on: 06-09-2026 by: Joshua Mullenberg_
 
 This page documents the current development workflow for `mkdocs-treeblocks`.
 

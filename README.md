@@ -1,4 +1,5 @@
 # mkdocs-treeblocks
+_Revised on: 06-09-2026 by: Joshua Mullenberg_
 
 `mkdocs-treeblocks` is an MkDocs extension for rendering readable tree-style blocks in documentation.
 
