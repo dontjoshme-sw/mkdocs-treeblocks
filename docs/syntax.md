@@ -1,8 +1,9 @@
 # Tree block syntax
+_Revised on: 06-09-2026 by: Joshua Mullenberg_
 
 This page describes the planned author-facing syntax for `mkdocs-treeblocks`.
 
-The current implementation includes the parser MVP and a plain-text renderer MVP. MkDocs integration is planned but not implemented yet.
+The current implementation includes the parser MVP, a plain-text renderer MVP, and a plain Python Markdown transformer MVP. MkDocs integration is planned but not implemented yet.
 
 ## Basic idea
 
@@ -24,6 +25,29 @@ docs
     └── install.md
 ```
 
+## Markdown tree fences
+
+The current transformer MVP recognizes fenced code blocks marked as `tree`.
+
+A source block like this:
+
+    ```tree
+    docs
+        index.md
+        guides
+            install.md
+    ```
+
+is transformed into a fenced `text` block containing the rendered tree:
+
+    ```text
+    docs/
+    ├── index.md
+    └── guides/
+        └── install.md
+    ```
+
+Only `tree` fences are transformed. Other fenced code blocks, such as `python`, `bash`, or `text`, are left unchanged.
 
 ## Indentation
 
@@ -191,32 +215,3 @@ docs
 ```
 
 The renderer does not inspect the real filesystem. A node is displayed as a directory only when it has child nodes.
-
-## Planned MkDocs syntax
-
-The original project idea is to support a custom tree block in Markdown.
-
-A possible future syntax is:
-
-```markdown
-/// tree
-docs
-    index.md
-    guides
-        install.md
-///
-```
-
-A possible directory-aware version is:
-
-```markdown
-/// tree/
-mkdocs-project
-    docs
-        index.md
-    mkdocs.yml
-    README.md
-///
-```
-
-This syntax is not implemented yet.
