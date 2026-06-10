@@ -1,6 +1,6 @@
 # Treeblocks Test
 
-Before the tree block.
+Before the first tree block.
 
 ```tree
 docs
@@ -9,4 +9,17 @@ docs
         install.md
 ```
 
-After the tree block.
+Between the tree blocks.
+
+## Another section
+
+This paragraph should remain between the rendered tree blocks.
+
+```tree
+src
+    mkdocs_treeblocks
+        parser.py
+        renderer.py
+```
+
+After the second tree block.

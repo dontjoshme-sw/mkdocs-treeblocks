@@ -22,12 +22,21 @@ def test_mkdocs_plugin_transforms_tree_blocks(tmp_path: Path) -> None:
 
     html = (site_dir / "index.html").read_text()
 
-    assert "Before the tree block." in html
+    assert "Before the first tree block." in html
     assert "docs/" in html
     assert "├── index.md" in html
     assert "└── guides/" in html
     assert "└── install.md" in html
-    assert "After the tree block." in html
+
+    assert "Between the tree blocks." in html
+    assert "Another section" in html
+    assert "This paragraph should remain between the rendered tree blocks." in html
+
+    assert "src/" in html
+    assert "└── mkdocs_treeblocks/" in html
+    assert "├── parser.py" in html
+    assert "└── renderer.py" in html
+    assert "After the second tree block." in html
 
 
 def test_mkdocs_plugin_wraps_tree_parse_errors() -> None:
