@@ -3,8 +3,8 @@
 Before the first tree block.
 
 ```tree
-docs
-    index.md
+docs                    # comment inside tree block
+    index.md            # aligned comment
     guides
         install.md
 ```
@@ -16,7 +16,7 @@ Between the tree blocks.
 This paragraph should remain between the rendered tree blocks.
 
 ```tree
-src
+src 
     mkdocs_treeblocks
         parser.py
         renderer.py
