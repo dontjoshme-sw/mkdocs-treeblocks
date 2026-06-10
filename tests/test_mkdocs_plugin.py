@@ -23,8 +23,8 @@ def test_mkdocs_plugin_transforms_tree_blocks(tmp_path: Path) -> None:
     html = (site_dir / "index.html").read_text()
 
     assert "Before the first tree block." in html
-    assert "docs/" in html
-    assert "├── index.md" in html
+    assert "docs                    # comment inside tree block" in html
+    assert "├── index.md            # aligned comment" in html
     assert "└── guides/" in html
     assert "└── install.md" in html
 
