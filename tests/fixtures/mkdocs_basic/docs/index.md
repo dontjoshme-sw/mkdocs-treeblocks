@@ -3,10 +3,10 @@
 Before the first tree block.
 
 ```tree
-docs                    # comment inside tree block
-    index.md            # aligned comment
+docs
+    index.md            # comment inside tree block
     guides
-        install.md
+        install.md      # aligned comment
 ```
 
 Between the tree blocks.
