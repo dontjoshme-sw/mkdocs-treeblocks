@@ -16,7 +16,7 @@ Between the tree blocks.
 This paragraph should remain between the rendered tree blocks.
 
 ```tree
-src 
+src
     mkdocs_treeblocks
         parser.py
         renderer.py
