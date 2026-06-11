@@ -1,9 +1,9 @@
 from mkdocs_treeblocks.parser import TreeNode
 
 
-def render_tree(root: TreeNode, *, directory_slashes: bool = False) -> str:
+def render_tree(root: TreeNode) -> str:
     """Render a parsed tree as plain text using Unicode tree connectors."""
-    lines = [_display_text(root, directory_slashes=directory_slashes)]
+    lines = [root.text]
 
     for index, child in enumerate(root.children):
         is_last = index == len(root.children) - 1
@@ -24,26 +24,16 @@ def _render_child(
     *,
     prefix: str,
     is_last: bool,
-    directory_slashes: bool,
 ) -> None:
     connector = "└── " if is_last else "├── "
-    lines.append(f"{prefix}{connector}{_display_text(node, directory_slashes=directory_slashes)}")
+    lines.append(f"{prefix}{connector}{node.text}")
 
     child_prefix = f"{prefix}{'    ' if is_last else '│   '}"
 
     for index, child in enumerate(node.children):
-        child_is_last = index == len(node.children) - 1
         _render_child(
             child,
             lines,
             prefix=child_prefix,
-            is_last=child_is_last,
-            directory_slashes=directory_slashes,
+            is_last=index == len(node.children) - 1,
         )
-
-
-def _display_text(node: TreeNode, *, directory_slashes: bool) -> str:
-    if directory_slashes and node.children and not node.text.endswith("/"):
-        return f"{node.text}/"
-
-    return node.text

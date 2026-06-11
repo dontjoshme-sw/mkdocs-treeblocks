@@ -126,17 +126,17 @@ Implemented:
 - Test parser and renderer, and Markdown transformer behavior with `pytest`.
 - Test Mkdocs plugin behavior with `pytest`.
 
-- MkDocs plugin integration.
-
 Not implemented yet:
+
+- Richer page, file, and line-aware error messages.
+
+Potential Future Enhancements:
 
 - Custom HTML rendering.
 - CSS styling.
+- Auto directory slash option.
 - Configuration through `mkdocs.yml`.
-- Filesystem inspection.
 
-Fix needed:
-- When `directory_slashes = true` and there is a comment, the inferred directory slash is incorrectly placed after the comment.
 
 ---
 ## Project Roadmap
@@ -149,38 +149,46 @@ Fix needed:
 - <s>Initial README
 - <s>Make the first commit</s>
  
-#### <s>Phase 2: Minimal Rendering Experiment</s>
+#### <s>Phase 2: parser MVP</s>
 - <s>Choose the first supported syntax</s>
-- <s>Parse a small tree block</s>
+- <s>Parse a small indented tree</s>
 - <s>Add parser tests</s>
-- <s>Incremental documentation in /docs/</s>
+- <s>Add incremental documentation in /docs/</s>
 
-#### <s>Phase 3: Minimal Renderer Behavior</s>
+#### <s>Phase 3: renderer MVP</s>
 - <s>Define renderer MVP behavior</s>
 - <s>Add renderer tests</s>
 - <s>Implement a plain Python renderer</s>
-- <s>Document renderer behavior in README.md and docs/</s>
+- <s>Document renderer behavior</s>
  
-#### Phase 4: Markdown Transform MVP
+#### <s>Phase 4: Markdown transform MVP</s>
 - <s>Choose fenced `tree` blocks as the first supported Markdown source syntax</s>
 - <s>Detect and transform tree blocks in Markdown</s>
 - <s>Replace transformed tree blocks with fenced `text` blocks</s>
 - <s>Keep the transformer independent from MkDocs integration</s>
 
-#### Phase 5: MkDocs Integration
-- <s>Decide whether this should be a Markdown extension, MkDocs plugin, or MkDocs hook.</s>
+#### Phase 5: MkDocs plugin MVP
 - <s>Add a minimal MkDocs plugin</s>
+- <s>Register the plugin with MkDocs</s
 - <s>Add a minimal MkDocs fixture.</s>
 - <s>Add MkDocs integration tests.</s>
-- <s>Add page-aware build errors for invalid tree blocks.</s>
-- <s>Wrap invalid tree blocks as MkDocs `PluginError`</s>
+- <s>Wrap parser failures as MkDocs `PluginError`</s>
+
+#### Phase 6: Error handling & Testing
 - Add richer page/file/line-aware error messages.
+- Test installation from a built wheel in a clean virtual environment.
 - Test with Material for MkDocs.
 
-#### Phase 6: Documentation and Polish
-- Add usage documentation
-- Add installation instructions
-- Add examples
-- Document limitations and troubleshooting notes
+#### Phase 7: Polish documentation
+- Update current documentation.
+- Verify documentation includes installation, usage, and examples.
+- Document limitations and troubleshooting notes.
+- Start a GitHub Project for adding issues, and feature requests.
+
+#### Phase 8: Publish Initial Release
+- Finalize package metadata in pyproject.toml
+- Install build tooling and build distributions
+- Test the build wheel in a clean environment
+- Pulish the release to PyPl
 
 
