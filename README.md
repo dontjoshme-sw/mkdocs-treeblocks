@@ -1,15 +1,20 @@
 # mkdocs-treeblocks
-_Revised on: 06-09-2026 by: Joshua Mullenberg_
+_Revised on: 06-11-2026 by: Joshua Mullenberg_
 
-`mkdocs-treeblocks` is an MkDocs plugin for rendering readable tree-style blocks in documentation and is currently still in development.
+`mkdocs-treeblocks` is a MkDocs plugin for rendering readable tree-style blocks in documentation.
 
-The goal is to make directory structures, file trees, project layouts, and related hierarchy examples easier to write, read, and maintain inside MkDocs documentation.
+The goal is to make directory structures, file trees, project layouts, and related hierarchy examples easier to write, read, and maintain in MkDocs documentation.
+
+> [!NOTE]
+> This project is currently in development. Syntax and public APIs are still subject to change.
 
 ## Initial purpose
 
-This project started from a documentation need of rendering clean text-based hierarchy trees from a simple markdown style syntax.  The idea is to avoid having to switch apps to copy paste from a web tool, manually insert unicode characters, or fight with the filtering options on a `tree` command to render the directory structure needed for the documentation.  
+This project grew from a need to create clean, text-based tree-style blocks directly in documentation using simple Markdown syntax.
 
-The initial goal is to support a small, predictable syntax that can render a tree structure consistently in MkDocs sites.
+The goal is to avoid switching to a separate app, copying output from a web tool, manually inserting Unicode tree characters, or wrestling with tree command filters just to produce a curated directory structure for documentation.
+
+mkdocs-treeblocks provides a small, predictable syntax that renders tree structures consistently in MkDocs sites.
 
 ## Syntax
 
@@ -59,9 +64,6 @@ mkdocs-project/
         </td>
     </tr>
 </table>
-
-> [!NOTE]
-> This project is currently in development. Syntax and public APIs are still subject to change.
 
 ---
 # Basic MkDocs Usage
