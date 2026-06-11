@@ -18,12 +18,16 @@ mkdocs-treeblocks provides a small, predictable syntax that renders tree structu
 
 ## Syntax
 
-Tree blocks are written as a fenced Markdown code block using the three backticks (` ``` `) to open and close the block and the `tree` keyword in place of the syntax language identifier. The plugin transforms the fenced block into a fenced `text` block containing the rendered tree. Indents can be either 4 spaces or a `tab`, but must be used consistently throughout the tree.  Finally, tabs and spaces are preserved after the initial indentation which allows for properly aligned comments.
+Tree blocks are written as fenced Markdown code blocks. Use three backticks to open and close the block, with tree as the language identifier.
+
+The plugin transforms each fenced tree block into a fenced text block containing the rendered tree.
+
+Indentation may use either four spaces or one tab per level, but each tree block must use one style consistently. Text and spacing after the structural indentation are preserved, allowing filenames, comments, and annotations to remain aligned.
 
 <table>
     <tr>
-        <th>syntax example</th>
-        <th>rendered output</th>
+        <th>Syntax by example</th>
+        <th>Rendered output</th>
     </tr>
     <tr>
         <td>
@@ -35,7 +39,7 @@ mkdocs-project/
         ...
     mkdocs.yml        # mkdocs config
     README.md
-    requirements.txt  # dependencies  
+    requirements.txt  # dependencies
     site/
         404.html
         assets/
@@ -58,7 +62,7 @@ mkdocs-project/
     ├── 404.html
     ├── assets/
     ├── index.html
-    └── ...  
+    └── ...
 ```
             </code></pre>
         </td>
@@ -66,25 +70,45 @@ mkdocs-project/
 </table>
 
 ---
-# Basic MkDocs Usage
 
-Enable the plugin in `mkdocs.yml`:
+## Installation, testing, and usage
+
+Clone the repository, create and activate a virtual environment, then install the project in editable mode with its development dependencies:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+```
+
+The editable install registers the treeblocks plugin with MkDocs and allows local source changes to take effect without reinstalling the package.
+
+Run the test suite:
+
+```bash
+python -m pytest
+```
+
+Enable the plugin in mkdocs.yml:
 
 ```yaml
 plugins:
-    - treeblocks
+  - treeblocks
 ```
 
-Write a tree block in a Markdown page:
+Then write a fenced tree block in a Markdown page:
 
 ````
 ```tree
-docs\
+docs/
     index.md
-    guides\
+    guides/
         install.md
 ```
 ````
+
+During the MkDocs build, the plugin transforms the source into a fenced text block containing the rendered tree.
 
 ---
 ## Current implementation status
@@ -94,13 +118,14 @@ Implemented:
 - Parse indented text into a tree structure with `parse_tree()`.
 - Render a parsed tree as plain text with `render_tree()`.
 - Use Unicode tree connectors such as `├──`, `└──`, and `│`.
-- Add display-only trailing slashes to nodes with children.
-- Preserve original node text in the parser.
-- Allow inferred directory slashes to be disabled with `directory_slashes=False`.
-- Test parser and renderer, and Markdown transformer behavior with `pytest`.
-- Test Mkdocs plugin behavior with `pytest`.
+- Preserve original node text, including aligned comments and annotations.
 - Transform fenced Markdown `tree` blocks into rendered fenced `text` blocks with `transform_markdown()`.
 - Leave non-`tree` fenced code blocks unchanged.
+- Integrate with MkDocs through the treeblocks plugin.
+- Raise MkDocs PluginError for invalid tree blocks.
+- Test parser and renderer, and Markdown transformer behavior with `pytest`.
+- Test Mkdocs plugin behavior with `pytest`.
+
 - MkDocs plugin integration.
 
 Not implemented yet:
