@@ -1,7 +1,7 @@
 from mkdocs_treeblocks.parser import TreeNode
 
 
-def render_tree(root: TreeNode, *, directory_slashes: bool = True) -> str:
+def render_tree(root: TreeNode, *, directory_slashes: bool = False) -> str:
     """Render a parsed tree as plain text using Unicode tree connectors."""
     lines = [_display_text(root, directory_slashes=directory_slashes)]
 
