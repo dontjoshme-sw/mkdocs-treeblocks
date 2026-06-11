@@ -54,8 +54,7 @@ docs/
 │   └── config.md
 └── reference/
     └── api.md"""
-
-"""  Disabled until slash issue is fixed.  
+ 
 def test_adds_trailing_slash_to_nodes_with_children():
     root = parse_tree(
         """\
@@ -84,7 +83,7 @@ docs/
 docs/
 └── guides/
     └── install.md"""
-"""
+
 def test_can_disable_directory_slashes():
     root = parse_tree(
         """\
