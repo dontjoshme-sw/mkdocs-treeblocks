@@ -13,27 +13,25 @@ The initial goal is to support a small, predictable syntax that can render a tre
 
 ## Syntax
 
-Each tree block is rendered in a code block to preserve even spacing and alignment. The opening and closing of a tree block will be similar to a code block using three back-ticks followed by the `tree` keyword as the syntax.  When reformatted it will be inserted into a standard code block with the `text` syntax.  Indents can be either 4 spaces or a `tab`, but must be used consistently throughout the tree.  Appending the `tree` keyword with a `/`  as in `tree/` will direct the formatter to handle the tree as a directory, adding a `/` after directories in the tree will then be optional as the formatter will automatically add the trailing `/` if the next line is a child object.  Finally, tabs and spaces are preserved after the initial indentation which allows for properly aligned comments.
-
-The current transformer MVP recognizes fenced blocks marked as `tree` and replaces them with fenced `text` blocks. A separate `tree/` fence mode is not implemented yet; directory slashes are currently inferred by the renderer when a node has children.
+Tree blocks are written as a fenced Markdown code block using the three backticks (` ``` `) to open and close the block and the `tree` keyword in place of the syntax language identifier. The plugin transforms the fenced block into a fenced `text` block containing the rendered tree. Indents can be either 4 spaces or a `tab`, but must be used consistently throughout the tree.  Finally, tabs and spaces are preserved after the initial indentation which allows for properly aligned comments.
 
 <table>
     <tr>
-        <th>pre-formatted syntax</th>
-        <th>after formatting</th>
+        <th>syntax example</th>
+        <th>rendered output</th>
     </tr>
     <tr>
         <td>
             <pre><code>
-```tree/
-mkdocs-project
-    docs
+```tree
+mkdocs-project/
+    docs/
         index.md
         ...
     mkdocs.yml        # mkdocs config
     README.md
     requirements.txt  # dependencies  
-    site
+    site/
         404.html
         assets/
         index.html
@@ -63,7 +61,28 @@ mkdocs-project/
 </table>
 
 > [!NOTE]
-> This project is currently experimental. The parser, plain-text renderer, and plain Python Markdown transformer MVP are implemented and tested, but MkDocs integration has not been added yet. Syntax and public APIs are still subject to change.
+> This project is currently in development. Syntax and public APIs are still subject to change.
+
+---
+# Basic MkDocs Usage
+
+Enable the plugin in `mkdocs.yml`:
+
+```yaml
+plugins:
+    - treeblocks
+```
+
+Write a tree block in a Markdown page:
+
+````
+```tree
+docs\
+    index.md
+    guides\
+        install.md
+```
+````
 
 ---
 ## Current implementation status
@@ -77,16 +96,20 @@ Implemented:
 - Preserve original node text in the parser.
 - Allow inferred directory slashes to be disabled with `directory_slashes=False`.
 - Test parser and renderer, and Markdown transformer behavior with `pytest`.
+- Test Mkdocs plugin behavior with `pytest`.
 - Transform fenced Markdown `tree` blocks into rendered fenced `text` blocks with `transform_markdown()`.
 - Leave non-`tree` fenced code blocks unchanged.
- 
+- MkDocs plugin integration.
+
 Not implemented yet:
 
-- MkDocs hook, plugin, or Markdown extension integration.
-- HTML rendering.
+- Custom HTML rendering.
 - CSS styling.
 - Configuration through `mkdocs.yml`.
 - Filesystem inspection.
+
+Fix needed:
+- When `directory_slashes = true` and there is a comment, the inferred directory slash is incorrectly placed after the comment.
 
 ---
 ## Project Roadmap
@@ -118,10 +141,14 @@ Not implemented yet:
 - <s>Keep the transformer independent from MkDocs integration</s>
 
 #### Phase 5: MkDocs Integration
-- Decide whether this should be a Markdown extension, MkDocs plugin, or MkDocs hook.
-- Add a minimal MkDocs demo page.
+- <s>Decide whether this should be a Markdown extension, MkDocs plugin, or MkDocs hook.</s>
+- <s>Add a minimal MkDocs plugin</s>
+- <s>Add a minimal MkDocs fixture.</s>
+- <s>Add MkDocs integration tests.</s>
+- <s>Add page-aware build errors for invalid tree blocks.</s>
+- <s>Wrap invalid tree blocks as MkDocs `PluginError`</s>
+- Add richer page/file/line-aware error messages.
 - Test with Material for MkDocs.
-- Add page-aware build errors for invalid tree blocks.
 
 #### Phase 6: Documentation and Polish
 - Add usage documentation
