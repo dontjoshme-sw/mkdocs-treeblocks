@@ -6,7 +6,7 @@ _Revised on: 06-11-2026 by: Joshua Mullenberg_
 The goal is to make directory structures, file trees, project layouts, and related hierarchy examples easier to write, read, and maintain in MkDocs documentation.
 
 > [!NOTE]
-> This project is currently in development. Syntax and public APIs are still subject to change.
+> This project is currently in development. Syntax, behavior, and package interfaces are still subject to change.
 
 ## Initial purpose
 
@@ -121,41 +121,38 @@ Implemented:
 - Preserve original node text, including aligned comments and annotations.
 - Transform fenced Markdown `tree` blocks into rendered fenced `text` blocks with `transform_markdown()`.
 - Leave non-`tree` fenced code blocks unchanged.
-- Integrate with MkDocs through the treeblocks plugin.
-- Raise MkDocs PluginError for invalid tree blocks.
-- Test parser and renderer, and Markdown transformer behavior with `pytest`.
-- Test Mkdocs plugin behavior with `pytest`.
+- Integrate with MkDocs through the `treeblocks` plugin.
+- Raise MkDocs `PluginError` for invalid tree blocks.
+- Test parser, renderer, Markdown transformer, and MkDocs plugin behavior with `pytest`.
 
 Not implemented yet:
 
 - Richer page, file, and line-aware error messages.
 
-Potential Future Enhancements:
+Potential future enhancements:
 
 - Custom HTML rendering.
-- CSS styling.
-- Auto directory slash option.
-- Configuration through `mkdocs.yml`.
-
+- Dedicated CSS styling.
+- Optional automatic directory slash handling.
 
 ---
 ## Project Roadmap
 
 #### <s>Phase 1: Scaffold and concept</s>
 - <s>Create the project</s>
-- <s>Setup GitHub repository</s>
+- <s>Set up the GitHub repository</s>
 - <s>Document the purpose and syntax</s>
 - <s>Add placeholder tests</s>
-- <s>Initial README
+- <s>Create the initial README</s/
 - <s>Make the first commit</s>
  
-#### <s>Phase 2: parser MVP</s>
+#### <s>Phase 2: Parser MVP</s>
 - <s>Choose the first supported syntax</s>
 - <s>Parse a small indented tree</s>
 - <s>Add parser tests</s>
 - <s>Add incremental documentation in /docs/</s>
 
-#### <s>Phase 3: renderer MVP</s>
+#### <s>Phase 3: Renderer MVP</s>
 - <s>Define renderer MVP behavior</s>
 - <s>Add renderer tests</s>
 - <s>Implement a plain Python renderer</s>
@@ -169,26 +166,25 @@ Potential Future Enhancements:
 
 #### Phase 5: MkDocs plugin MVP
 - <s>Add a minimal MkDocs plugin</s>
-- <s>Register the plugin with MkDocs</s
+- <s>Register the plugin with MkDocs</s>
 - <s>Add a minimal MkDocs fixture.</s>
 - <s>Add MkDocs integration tests.</s>
 - <s>Wrap parser failures as MkDocs `PluginError`</s>
 
-#### Phase 6: Error handling & Testing
+#### Phase 6: Error handling & testing
 - Add richer page/file/line-aware error messages.
-- Test installation from a built wheel in a clean virtual environment.
 - Test with Material for MkDocs.
 
-#### Phase 7: Polish documentation
+#### Phase 7: Documentation Polish
 - Update current documentation.
 - Verify documentation includes installation, usage, and examples.
 - Document limitations and troubleshooting notes.
-- Start a GitHub Project for adding issues, and feature requests.
+- Set up GitHub issue and feature-request tracking.
 
-#### Phase 8: Publish Initial Release
-- Finalize package metadata in pyproject.toml
-- Install build tooling and build distributions
-- Test the build wheel in a clean environment
-- Pulish the release to PyPl
+#### Phase 8: Publish initial release
+- Finalize package metadata in `pyproject.toml`.
+- Install build tooling and create distribution packages.
+- Test the built wheel in a clean virtual environment
+- Publish the release to PyPI
 
 
