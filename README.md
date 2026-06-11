@@ -1,7 +1,7 @@
 # mkdocs-treeblocks
 _Revised on: 06-09-2026 by: Joshua Mullenberg_
 
-`mkdocs-treeblocks` is an MkDocs extension for rendering readable tree-style blocks in documentation.
+`mkdocs-treeblocks` is an MkDocs plugin for rendering readable tree-style blocks in documentation and is currently still in development.
 
 The goal is to make directory structures, file trees, project layouts, and related hierarchy examples easier to write, read, and maintain inside MkDocs documentation.
 
@@ -13,7 +13,7 @@ The initial goal is to support a small, predictable syntax that can render a tre
 
 ## Syntax
 
-Each tree block will be rendered in a code block to preserve even spacing and alignment. The opening and closing of a tree block will be similar to a code block using three back-ticks followed by the `tree` keyword as the syntax.  When reformatted it will be inserted into a standard code block with the `text` syntax.  Indents can be either 4 spaces or a `tab`, but must be used consistently throughout the tree.  Appending the `tree` keyword with a `/`  as in `tree/` will direct the formatter to handle the tree as a directory, adding a `/` after directories in the tree will then be optional as the formatter will automatically add the trailing `/` if the next line is a child object.  Finally, tabs and spaces are preserved after the initial indentation which allows for properly aligned comments.
+Each tree block is rendered in a code block to preserve even spacing and alignment. The opening and closing of a tree block will be similar to a code block using three back-ticks followed by the `tree` keyword as the syntax.  When reformatted it will be inserted into a standard code block with the `text` syntax.  Indents can be either 4 spaces or a `tab`, but must be used consistently throughout the tree.  Appending the `tree` keyword with a `/`  as in `tree/` will direct the formatter to handle the tree as a directory, adding a `/` after directories in the tree will then be optional as the formatter will automatically add the trailing `/` if the next line is a child object.  Finally, tabs and spaces are preserved after the initial indentation which allows for properly aligned comments.
 
 The current transformer MVP recognizes fenced blocks marked as `tree` and replaces them with fenced `text` blocks. A separate `tree/` fence mode is not implemented yet; directory slashes are currently inferred by the renderer when a node has children.
 
