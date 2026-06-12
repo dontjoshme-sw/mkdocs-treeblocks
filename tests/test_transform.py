@@ -134,7 +134,7 @@ src
     with pytest.raises(
         TreeParseError,
         match=(
-            r"tree block starting at line 9: "
+            r"tree block starting at line 10: "
             r"Space indentation must use multiples of four spaces\."
         ),
     ):
