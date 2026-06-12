@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from mkdocs.commands.build import build
@@ -50,5 +51,39 @@ docs
 ```
 """
 
-    with pytest.raises(PluginError, match="treeblocks failed to parse a tree block"):
+    with pytest.raises(
+        PluginError,
+        match=(
+            r"treeblocks failed: "
+            r"tree block starting at line 1: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
         plugin.on_page_markdown(markdown)
+
+
+def test_mkdocs_plugin_includes_source_path_in_parse_errors() -> None:
+    from mkdocs_treeblocks.plugin import TreeblocksPlugin
+
+    plugin = TreeblocksPlugin()
+    page = SimpleNamespace(
+        file=SimpleNamespace(src_path="guides/example.md")
+    )
+
+    markdown = """Introduction.
+
+```tree
+docs
+   bad-indent.md
+```
+"""
+
+    with pytest.raises(
+        PluginError,
+        match=(
+            r"treeblocks failed in guides/example\.md: "
+            r"tree block starting at line 3: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
+        plugin.on_page_markdown(markdown, page=page)
