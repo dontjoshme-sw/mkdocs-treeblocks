@@ -1,0 +1,351 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/dontjoshme/dev/mkdocs-treeblocks
+configfile: pyproject.toml
+testpaths: tests
+collected 18 items
+
+tests/test_mkdocs_plugin.py FF                                           [ 11%]
+tests/test_parser.py ......                                              [ 44%]
+tests/test_placeholder.py .                                              [ 50%]
+tests/test_renderer.py .FFF                                              [ 72%]
+tests/test_transform.py FF...                                            [100%]
+
+=================================== FAILURES ===================================
+__________________ test_mkdocs_plugin_transforms_tree_blocks ___________________
+
+tmp_path = PosixPath('/tmp/pytest-of-dontjoshme/pytest-16/test_mkdocs_plugin_transforms_0')
+
+    def test_mkdocs_plugin_transforms_tree_blocks(tmp_path: Path) -> None:
+        fixture_dir = Path(__file__).parent / "fixtures" / "mkdocs_basic"
+        site_dir = tmp_path / "site"
+    
+>       config = load_config(
+            str(fixture_dir / "mkdocs.yml"),
+            site_dir=str(site_dir),
+            strict=True,
+        )
+
+tests/test_mkdocs_plugin.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/mkdocs/config/base.py:374: in load_config
+    errors, warnings = cfg.validate()
+                       ^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/mkdocs/config/base.py:231: in validate
+    run_failed, run_warnings = self._validate()
+                               ^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/mkdocs/config/base.py:188: in _validate
+    self[key] = config_option.validate(value)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/mkdocs/config/config_options.py:186: in validate
+    return self.run_validation(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/mkdocs/config/config_options.py:1065: in run_validation
+    self.load_plugin_with_namespace(name, cfg)
+.venv/lib/python3.12/site-packages/mkdocs/config/config_options.py:1103: in load_plugin_with_namespace
+    return (name, self.load_plugin(name, config))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.12/site-packages/mkdocs/config/config_options.py:1121: in load_plugin
+    plugin_cls = self.installed_plugins[name].load()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/metadata/__init__.py:205: in load
+    module = import_module(match.group('module'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+<frozen importlib._bootstrap_external>:991: in exec_module
+    ???
+<frozen importlib._bootstrap_external>:1129: in get_code
+    ???
+<frozen importlib._bootstrap_external>:1059: in source_to_code
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+f = <built-in function compile>
+args = (b'"""MkDocs plugin integration for mkdocs-treeblocks."""\n\nfrom __future__ import annotations\n\nfrom mkdocs.excepti...r(message) from error\n            ', '/home/dontjoshme/dev/mkdocs-treeblocks/src/mkdocs_treeblocks/plugin.py', 'exec')
+kwds = {'dont_inherit': True, 'optimize': -1}
+
+>   ???
+E     File "/home/dontjoshme/dev/mkdocs-treeblocks/src/mkdocs_treeblocks/plugin.py", line 16
+E       """Transform tree blocks in a page's Markdown source."""
+E       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   IndentationError: expected an indented block after function definition on line 15
+
+<frozen importlib._bootstrap>:488: IndentationError
+__________________ test_mkdocs_plugin_wraps_tree_parse_errors __________________
+
+    def test_mkdocs_plugin_wraps_tree_parse_errors() -> None:
+>       from mkdocs_treeblocks.plugin import TreeblocksPlugin
+E         File "/home/dontjoshme/dev/mkdocs-treeblocks/src/mkdocs_treeblocks/plugin.py", line 16
+E           """Transform tree blocks in a page's Markdown source."""
+E           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       IndentationError: expected an indented block after function definition on line 15
+
+tests/test_mkdocs_plugin.py:43: IndentationError
+_______________________ test_renders_root_with_one_child _______________________
+
+    def test_renders_root_with_one_child():
+        root = parse_tree(
+            """\
+    docs/
+        index.md
+    """
+        )
+    
+>       assert render_tree(root) == """\
+               ^^^^^^^^^^^^^^^^^
+    docs/
+    └── index.md"""
+
+tests/test_renderer.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = TreeNode(text='docs/', children=[TreeNode(text='index.md', children=[])])
+
+    def render_tree(root: TreeNode) -> str:
+        """Render a parsed tree as plain text using Unicode tree connectors."""
+        lines = [root.text]
+    
+        for index, child in enumerate(root.children):
+            is_last = index == len(root.children) - 1
+            _render_child(
+                child,
+                lines,
+                prefix="",
+                is_last=is_last,
+>               directory_slashes=directory_slashes,
+                                  ^^^^^^^^^^^^^^^^^
+            )
+E           NameError: name 'directory_slashes' is not defined
+
+src/mkdocs_treeblocks/renderer.py:15: NameError
+___________________ test_renders_root_with_multiple_children ___________________
+
+    def test_renders_root_with_multiple_children():
+        root = parse_tree(
+            """\
+    docs/
+        index.md
+        about.md
+    """
+        )
+    
+>       assert render_tree(root) == """\
+               ^^^^^^^^^^^^^^^^^
+    docs/
+    ├── index.md
+    └── about.md"""
+
+tests/test_renderer.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = TreeNode(text='docs/', children=[TreeNode(text='index.md', children=[]), TreeNode(text='about.md', children=[])])
+
+    def render_tree(root: TreeNode) -> str:
+        """Render a parsed tree as plain text using Unicode tree connectors."""
+        lines = [root.text]
+    
+        for index, child in enumerate(root.children):
+            is_last = index == len(root.children) - 1
+            _render_child(
+                child,
+                lines,
+                prefix="",
+                is_last=is_last,
+>               directory_slashes=directory_slashes,
+                                  ^^^^^^^^^^^^^^^^^
+            )
+E           NameError: name 'directory_slashes' is not defined
+
+src/mkdocs_treeblocks/renderer.py:15: NameError
+________________ test_renders_nested_children_with_guide_lines _________________
+
+    def test_renders_nested_children_with_guide_lines():
+        root = parse_tree(
+            """\
+    docs/
+        index.md
+        guides/
+            install.md
+            config.md
+        reference/
+            api.md
+    """
+        )
+    
+>       assert render_tree(root) == """\
+               ^^^^^^^^^^^^^^^^^
+    docs/
+    ├── index.md
+    ├── guides/
+    │   ├── install.md
+    │   └── config.md
+    └── reference/
+        └── api.md"""
+
+tests/test_renderer.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = TreeNode(text='docs/', children=[TreeNode(text='index.md', children=[]), TreeNode(text='guides/', children=[TreeNode(t...eeNode(text='config.md', children=[])]), TreeNode(text='reference/', children=[TreeNode(text='api.md', children=[])])])
+
+    def render_tree(root: TreeNode) -> str:
+        """Render a parsed tree as plain text using Unicode tree connectors."""
+        lines = [root.text]
+    
+        for index, child in enumerate(root.children):
+            is_last = index == len(root.children) - 1
+            _render_child(
+                child,
+                lines,
+                prefix="",
+                is_last=is_last,
+>               directory_slashes=directory_slashes,
+                                  ^^^^^^^^^^^^^^^^^
+            )
+E           NameError: name 'directory_slashes' is not defined
+
+src/mkdocs_treeblocks/renderer.py:15: NameError
+_______________________ test_transform_single_tree_block _______________________
+
+    def test_transform_single_tree_block():
+        markdown = """Before.
+    
+    ```tree
+    docs/
+        index.md
+        guides/
+            install.md
+    ```
+    
+    After.
+    """
+    
+        expected = """Before.
+    
+    ```text
+    docs/
+    ├── index.md
+    └── guides/
+        └── install.md
+    ```
+    
+    After.
+    """
+    
+>       assert transform_markdown(markdown) == expected
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_transform.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/transform.py:54: in transform_markdown
+    return _TREE_FENCE_RE.sub(replace_tree_block, markdown)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/mkdocs_treeblocks/transform.py:50: in replace_tree_block
+    rendered_tree = render_tree(root_nodes)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = TreeNode(text='docs/', children=[TreeNode(text='index.md', children=[]), TreeNode(text='guides/', children=[TreeNode(text='install.md', children=[])])])
+
+    def render_tree(root: TreeNode) -> str:
+        """Render a parsed tree as plain text using Unicode tree connectors."""
+        lines = [root.text]
+    
+        for index, child in enumerate(root.children):
+            is_last = index == len(root.children) - 1
+            _render_child(
+                child,
+                lines,
+                prefix="",
+                is_last=is_last,
+>               directory_slashes=directory_slashes,
+                                  ^^^^^^^^^^^^^^^^^
+            )
+E           NameError: name 'directory_slashes' is not defined
+
+src/mkdocs_treeblocks/renderer.py:15: NameError
+_____________________ test_transform_multiple_tree_blocks ______________________
+
+    def test_transform_multiple_tree_blocks():
+        markdown = """First:
+    
+    ```tree
+    docs/
+        index.md
+    ```
+    
+    Second:
+    
+    ```tree
+    src/
+        mkdocs_treeblocks/
+            parser.py
+    ```
+    """
+    
+        expected = """First:
+    
+    ```text
+    docs/
+    └── index.md
+    ```
+    
+    Second:
+    
+    ```text
+    src/
+    └── mkdocs_treeblocks/
+        └── parser.py
+    ```
+    """
+    
+>       assert transform_markdown(markdown) == expected
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_transform.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/transform.py:54: in transform_markdown
+    return _TREE_FENCE_RE.sub(replace_tree_block, markdown)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/mkdocs_treeblocks/transform.py:50: in replace_tree_block
+    rendered_tree = render_tree(root_nodes)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = TreeNode(text='docs/', children=[TreeNode(text='index.md', children=[])])
+
+    def render_tree(root: TreeNode) -> str:
+        """Render a parsed tree as plain text using Unicode tree connectors."""
+        lines = [root.text]
+    
+        for index, child in enumerate(root.children):
+            is_last = index == len(root.children) - 1
+            _render_child(
+                child,
+                lines,
+                prefix="",
+                is_last=is_last,
+>               directory_slashes=directory_slashes,
+                                  ^^^^^^^^^^^^^^^^^
+            )
+E           NameError: name 'directory_slashes' is not defined
+
+src/mkdocs_treeblocks/renderer.py:15: NameError
+=========================== short test summary info ============================
+FAILED tests/test_mkdocs_plugin.py::test_mkdocs_plugin_transforms_tree_blocks
+FAILED tests/test_mkdocs_plugin.py::test_mkdocs_plugin_wraps_tree_parse_errors
+FAILED tests/test_renderer.py::test_renders_root_with_one_child - NameError: ...
+FAILED tests/test_renderer.py::test_renders_root_with_multiple_children - Nam...
+FAILED tests/test_renderer.py::test_renders_nested_children_with_guide_lines
+FAILED tests/test_transform.py::test_transform_single_tree_block - NameError:...
+FAILED tests/test_transform.py::test_transform_multiple_tree_blocks - NameErr...
+========================= 7 failed, 11 passed in 0.23s =========================
