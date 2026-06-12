@@ -1,0 +1,264 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.0.3, pluggy-1.6.0
+rootdir: /home/dontjoshme/dev/mkdocs-treeblocks
+configfile: pyproject.toml
+testpaths: tests
+collected 19 items
+
+tests/test_mkdocs_plugin.py .F                                           [ 10%]
+tests/test_parser.py ......                                              [ 42%]
+tests/test_placeholder.py .                                              [ 47%]
+tests/test_renderer.py ....                                              [ 68%]
+tests/test_transform.py .....F                                           [100%]
+
+=================================== FAILURES ===================================
+__________________ test_mkdocs_plugin_wraps_tree_parse_errors __________________
+
+match = <re.Match object; span=(0, 33), match='```tree\ndocs\n   bad-indent.md\n```'>
+
+    def replace_tree_block(match: re.Match[str]) -> str:
+        tree_source = match.group("body")
+        block_line = markdown.count("\n", 0, match.start()) + 1
+    
+        try:
+>           root_nodes = parse_tree(tree_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+src/mkdocs_treeblocks/transform.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/parser.py:18: in parse_tree
+    parsed_lines = _parse_lines(text)
+                   ^^^^^^^^^^^^^^^^^^
+src/mkdocs_treeblocks/parser.py:66: in _parse_lines
+    depth = _indent_depth(indent, line_indent_style)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+indent = '   ', indent_style = 'spaces'
+
+    def _indent_depth(indent: str, indent_style: str) -> int:
+        if indent_style == "tabs":
+            return len(indent)
+    
+        if len(indent) % 4 != 0:
+>           raise TreeParseError("Space indentation must use multiples of four spaces.")
+E           mkdocs_treeblocks.parser.TreeParseError: Space indentation must use multiples of four spaces.
+
+src/mkdocs_treeblocks/parser.py:99: TreeParseError
+
+The above exception was the direct cause of the following exception:
+
+self = <mkdocs_treeblocks.plugin.TreeblocksPlugin object at 0xf8a32c3a1b80>
+markdown = '```tree\ndocs\n   bad-indent.md\n```\n', kwargs = {}, page = None
+page_file = None, source_path = None
+message = 'treeblocks failed: tree block starting at line 1: Space indentation must use multiples of four spaces.'
+
+    def on_page_markdown(self, markdown: str, **kwargs: object) -> str:
+        """Transform tree blocks in a page's Markdown source."""
+        try:
+>           return transform_markdown(markdown)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+src/mkdocs_treeblocks/plugin.py:18: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/transform.py:54: in transform_markdown
+    return _TREE_FENCE_RE.sub(replace_tree_block, markdown)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+match = <re.Match object; span=(0, 33), match='```tree\ndocs\n   bad-indent.md\n```'>
+
+    def replace_tree_block(match: re.Match[str]) -> str:
+        tree_source = match.group("body")
+        block_line = markdown.count("\n", 0, match.start()) + 1
+    
+        try:
+            root_nodes = parse_tree(tree_source)
+        except TreeParseError as error:
+>           raise TreeParseError(
+                f"tree block starting at line {block_line}: {error}"
+            ) from error
+E           mkdocs_treeblocks.parser.TreeParseError: tree block starting at line 1: Space indentation must use multiples of four spaces.
+
+src/mkdocs_treeblocks/transform.py:46: TreeParseError
+
+The above exception was the direct cause of the following exception:
+
+    def test_mkdocs_plugin_wraps_tree_parse_errors() -> None:
+        from mkdocs_treeblocks.plugin import TreeblocksPlugin
+    
+        plugin = TreeblocksPlugin()
+    
+        markdown = """```tree
+    docs
+       bad-indent.md
+    ```
+    """
+    
+        with pytest.raises(PluginError, match="treeblocks failed to parse a tree block"):
+>           plugin.on_page_markdown(markdown)
+
+tests/test_mkdocs_plugin.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <mkdocs_treeblocks.plugin.TreeblocksPlugin object at 0xf8a32c3a1b80>
+markdown = '```tree\ndocs\n   bad-indent.md\n```\n', kwargs = {}, page = None
+page_file = None, source_path = None
+message = 'treeblocks failed: tree block starting at line 1: Space indentation must use multiples of four spaces.'
+
+    def on_page_markdown(self, markdown: str, **kwargs: object) -> str:
+        """Transform tree blocks in a page's Markdown source."""
+        try:
+            return transform_markdown(markdown)
+        except TreeParseError as error:
+            page = kwargs.get("page")
+            page_file = getattr(page, "file", None)
+            source_path = getattr(page_file, "src_path", None)
+    
+            if source_path:
+                message = f"treeblocks failed in {source_path}: {error}"
+            else:
+                message = f"treeblocks failed: {error}"
+    
+>           raise PluginError(message) from error
+E           mkdocs.exceptions.PluginError: treeblocks failed: tree block starting at line 1: Space indentation must use multiples of four spaces.
+
+src/mkdocs_treeblocks/plugin.py:29: PluginError
+
+During handling of the above exception, another exception occurred:
+
+    def test_mkdocs_plugin_wraps_tree_parse_errors() -> None:
+        from mkdocs_treeblocks.plugin import TreeblocksPlugin
+    
+        plugin = TreeblocksPlugin()
+    
+        markdown = """```tree
+    docs
+       bad-indent.md
+    ```
+    """
+    
+>       with pytest.raises(PluginError, match="treeblocks failed to parse a tree block"):
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'treeblocks failed to parse a tree block'
+E         Actual message: 'treeblocks failed: tree block starting at line 1: Space indentation must use multiples of four spaces.'
+
+tests/test_mkdocs_plugin.py:53: AssertionError
+____ test_transform_later_invalid_tree_block_reports_correct_starting_line _____
+
+match = <re.Match object; span=(48, 80), match='```tree\nsrc\n   bad-indent.py\n```'>
+
+    def replace_tree_block(match: re.Match[str]) -> str:
+        tree_source = match.group("body")
+        block_line = markdown.count("\n", 0, match.start()) + 1
+    
+        try:
+>           root_nodes = parse_tree(tree_source)
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+src/mkdocs_treeblocks/transform.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/parser.py:18: in parse_tree
+    parsed_lines = _parse_lines(text)
+                   ^^^^^^^^^^^^^^^^^^
+src/mkdocs_treeblocks/parser.py:66: in _parse_lines
+    depth = _indent_depth(indent, line_indent_style)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+indent = '   ', indent_style = 'spaces'
+
+    def _indent_depth(indent: str, indent_style: str) -> int:
+        if indent_style == "tabs":
+            return len(indent)
+    
+        if len(indent) % 4 != 0:
+>           raise TreeParseError("Space indentation must use multiples of four spaces.")
+E           mkdocs_treeblocks.parser.TreeParseError: Space indentation must use multiples of four spaces.
+
+src/mkdocs_treeblocks/parser.py:99: TreeParseError
+
+The above exception was the direct cause of the following exception:
+
+    def test_transform_later_invalid_tree_block_reports_correct_starting_line():
+        markdown = """First:
+    
+    ```tree
+    docs
+        index.md
+    ```
+    
+    Second:
+    
+    ```tree
+    src
+       bad-indent.py
+    ```
+    """
+    
+        with pytest.raises(
+            TreeParseError,
+            match=(
+                r"tree block starting at line 9: "
+                r"Space indentation must use multiples of four spaces\."
+            ),
+        ):
+>           transform_markdown(markdown)
+
+tests/test_transform.py:141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/mkdocs_treeblocks/transform.py:54: in transform_markdown
+    return _TREE_FENCE_RE.sub(replace_tree_block, markdown)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+match = <re.Match object; span=(48, 80), match='```tree\nsrc\n   bad-indent.py\n```'>
+
+    def replace_tree_block(match: re.Match[str]) -> str:
+        tree_source = match.group("body")
+        block_line = markdown.count("\n", 0, match.start()) + 1
+    
+        try:
+            root_nodes = parse_tree(tree_source)
+        except TreeParseError as error:
+>           raise TreeParseError(
+                f"tree block starting at line {block_line}: {error}"
+            ) from error
+E           mkdocs_treeblocks.parser.TreeParseError: tree block starting at line 10: Space indentation must use multiples of four spaces.
+
+src/mkdocs_treeblocks/transform.py:46: TreeParseError
+
+During handling of the above exception, another exception occurred:
+
+    def test_transform_later_invalid_tree_block_reports_correct_starting_line():
+        markdown = """First:
+    
+    ```tree
+    docs
+        index.md
+    ```
+    
+    Second:
+    
+    ```tree
+    src
+       bad-indent.py
+    ```
+    """
+    
+>       with pytest.raises(
+            TreeParseError,
+            match=(
+                r"tree block starting at line 9: "
+                r"Space indentation must use multiples of four spaces\."
+            ),
+        ):
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'tree block starting at line 9: Space indentation must use multiples of four spaces\\.'
+E         Actual message: 'tree block starting at line 10: Space indentation must use multiples of four spaces.'
+
+tests/test_transform.py:134: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_mkdocs_plugin.py::test_mkdocs_plugin_wraps_tree_parse_errors
+FAILED tests/test_transform.py::test_transform_later_invalid_tree_block_reports_correct_starting_line
+========================= 2 failed, 17 passed in 0.22s =========================
