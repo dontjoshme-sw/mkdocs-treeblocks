@@ -18,11 +18,13 @@ mkdocs-treeblocks provides a small, predictable syntax that renders tree structu
 
 ## Syntax
 
-Tree blocks are written as fenced Markdown code blocks. Use three backticks to open and close the block, with tree as the language identifier.
+Tree blocks are written as fenced Markdown code blocks. Use three backticks (` ``` `) to open and close the block, with `tree` as the language identifier.
 
-The plugin transforms each fenced tree block into a fenced text block containing the rendered tree.
+The plugin converts the indentation into a tree structure, and then formats that structure into a fenced text-block using Unicode tree connectors.
 
-Indentation may use either four spaces or one tab per level, but each tree block must use one style consistently. Text and spacing after the structural indentation are preserved, allowing filenames, comments, and annotations to remain aligned.
+Indentation may use either four spaces or one tab per level, but cannot use both indentation styles within the same tree block. Text and spacing after the structural indentation are preserved, allowing filenames, comments, and annotations to remain aligned.
+
+Only one root node is allowed per tree block.
 
 <table>
     <tr>

@@ -81,10 +81,6 @@ git status
 
 The project should keep the core logic independent from MkDocs.
 
-Planned layers:
-
-Current layers:
-
 ```text
 Parser:
   Turns indented source text into a tree structure.
@@ -95,8 +91,8 @@ Renderer:
 Markdown transformer:
   Finds fenced Markdown `tree` blocks and replaces them with rendered `text` blocks.
 
-MkDocs integration:
-  Planned later. Connects the plain Python transformer to MkDocs builds.
+MkDocs plugin:
+  Connects the plain Python transformer to MkDocs builds.
 ```
 
 The current implementation includes the parser MVP, a plain-text renderer MVP, and a plain Python Markdown transformer MVP.
@@ -154,15 +150,7 @@ The renderer supports:
 - plain-text tree output
 - Unicode tree connectors
 - nested guide lines
-- display-only trailing slashes for nodes with children
-- avoiding doubled slashes when a node already ends with `/`
-- disabling inferred directory slashes with `directory_slashes=False`
-
-Directory slash behavior belongs to rendering, not parsing. The parser preserves the original node text, and the renderer decides how to display parent nodes.
-
-The renderer does not inspect the real filesystem. A node is displayed as a directory only when it has child nodes.
-
----
+ 
 ---
 
 ## Markdown transformer MVP
@@ -200,8 +188,5 @@ Initial documentation structure:
 
 ```text
 README.md
-docs/syntax.md
 docs/development.md
 ```
-
-A MkDocs documentation site can be reconsidered later if the project grows enough to need navigation, search, richer examples, or published docs.
