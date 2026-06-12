@@ -12,7 +12,6 @@ def render_tree(root: TreeNode) -> str:
             lines,
             prefix="",
             is_last=is_last,
-            directory_slashes=directory_slashes,
         )
 
     return "\n".join(lines)
