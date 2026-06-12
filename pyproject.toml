@@ -32,6 +32,10 @@ dev = [
   "pytest>=8.0",
 ]
 
+[project.entry-points."mkdocs.plugins"]
+
+treeblocks = "mkdocs_treeblocks.plugin:TreeblocksPlugin"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

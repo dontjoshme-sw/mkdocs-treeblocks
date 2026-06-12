@@ -8,9 +8,9 @@ def test_transform_single_tree_block():
     markdown = """Before.
 
 ```tree
-docs
+docs/
     index.md
-    guides
+    guides/
         install.md
 ```
 
@@ -36,15 +36,15 @@ def test_transform_multiple_tree_blocks():
     markdown = """First:
 
 ```tree
-docs
+docs/
     index.md
 ```
 
 Second:
 
 ```tree
-src
-    mkdocs_treeblocks
+src/
+    mkdocs_treeblocks/
         parser.py
 ```
 """
