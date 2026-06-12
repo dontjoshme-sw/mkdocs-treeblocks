@@ -1,5 +1,5 @@
 # Development notes
-_Revised on: 06-09-2026 by: Joshua Mullenberg_
+_Revised on: 06-11-2026 by: Joshua Mullenberg_
 
 This page documents the current development workflow for `mkdocs-treeblocks`.
 
@@ -142,7 +142,7 @@ src/mkdocs_treeblocks/renderer.py
 It currently provides:
 
 ```python
-render_tree(root: TreeNode, *, directory_slashes: bool = True) -> str
+render_tree(root: TreeNode) -> str
 ```
 
 The renderer supports:
@@ -160,7 +160,7 @@ The Markdown transformer lives in: `src/mkdocs_treeblocks/transform.py`.
 It currently provides:
 
 ```python
-    transform_markdown(markdown: str) -> str
+transform_markdown(markdown: str) -> str
 ```
 
 The transformer supports:
@@ -172,10 +172,7 @@ The transformer supports:
 - preserving Markdown outside transformed tree blocks
 - leaving non-tree fenced code blocks unchanged
 
-Invalid tree indentation raises TreeParseError from the parser. MkDocs-specific error wrapping with page and line context is planned for a later integration step
-
-///
-
+Invalid tree indentation raises TreeParseError from the parser, and is wrapped as a `PluginError`.
 
 ---
 ## Documentation approach
