@@ -95,7 +95,7 @@ MkDocs plugin:
   Connects the plain Python transformer to MkDocs builds.
 ```
 
-The current implementation includes the parser MVP, a plain-text renderer MVP, and a plain Python Markdown transformer MVP.
+The current implementation includes the parser MVP, a plain-text renderer MVP, a plain Python Markdown transformer MVP, and MkDocs plugin MVP.
 
 ## Parser MVP
 
@@ -172,7 +172,7 @@ The transformer supports:
 - preserving Markdown outside transformed tree blocks
 - leaving non-tree fenced code blocks unchanged
 
-Invalid tree indentation raises TreeParseError from the parser, and is wrapped as a `PluginError`.
+Invalid tree indentation raises `TreeParseError` from the parser. When processing through the MkDocs plugin, that error is wrapped as `PluginError`.
 
 ---
 ## Documentation approach
