@@ -87,3 +87,31 @@ docs
         ),
     ):
         plugin.on_page_markdown(markdown, page=page)
+
+def test_mkdocs_plugin_works_with_material_theme(tmp_path: Path) -> None:
+    fixture_dir = Path(__file__).parent / "fixtures" / "mkdocs_material"
+    site_dir = tmp_path / "site"
+
+    config = load_config(
+        str(fixture_dir / "mkdocs.yml"),
+        site_dir=str(site_dir),
+        strict=True,
+    )
+
+    build(config)
+
+    html = (site_dir / "index.html").read_text()
+
+    assert 'data-md-component="header"' in html
+    assert "Before the first tree block." in html
+    assert "docs/" in html
+    assert "├── index.md            # comment inside tree block" in html
+    assert "└── guides/" in html
+    assert "└── install.md      # aligned comment" in html
+    assert "Between the tree blocks." in html
+    assert "Another section" in html
+    assert "src/" in html
+    assert "└── mkdocs_treeblocks/" in html
+    assert "├── parser.py" in html
+    assert "└── renderer.py" in html
+    assert "After the second tree block." in html
