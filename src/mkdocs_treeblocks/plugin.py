@@ -17,7 +17,14 @@ class TreeblocksPlugin(BasePlugin):
         try:
             return transform_markdown(markdown)
         except TreeParseError as error:
-            raise PluginError(
-                f"treeblocks failed to parse a tree block: {error}"
-            ) from error
+            page = kwargs.get("page")
+            page_file = getattr(page, "file", None)
+            source_path = getattr(page_file, "src_path", None)
+
+            if source_path:
+                message = f"treeblocks failed in {source_path}: {error}"
+            else:
+                message = f"treeblocks failed: {error}"
+
+            raise PluginError(message) from error
             

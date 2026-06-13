@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from mkdocs.commands.build import build
@@ -50,5 +51,67 @@ docs
 ```
 """
 
-    with pytest.raises(PluginError, match="treeblocks failed to parse a tree block"):
+    with pytest.raises(
+        PluginError,
+        match=(
+            r"treeblocks failed: "
+            r"tree block starting at line 1: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
         plugin.on_page_markdown(markdown)
+
+
+def test_mkdocs_plugin_includes_source_path_in_parse_errors() -> None:
+    from mkdocs_treeblocks.plugin import TreeblocksPlugin
+
+    plugin = TreeblocksPlugin()
+    page = SimpleNamespace(
+        file=SimpleNamespace(src_path="guides/example.md")
+    )
+
+    markdown = """Introduction.
+
+```tree
+docs
+   bad-indent.md
+```
+"""
+
+    with pytest.raises(
+        PluginError,
+        match=(
+            r"treeblocks failed in guides/example\.md: "
+            r"tree block starting at line 3: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
+        plugin.on_page_markdown(markdown, page=page)
+
+def test_mkdocs_plugin_works_with_material_theme(tmp_path: Path) -> None:
+    fixture_dir = Path(__file__).parent / "fixtures" / "mkdocs_material"
+    site_dir = tmp_path / "site"
+
+    config = load_config(
+        str(fixture_dir / "mkdocs.yml"),
+        site_dir=str(site_dir),
+        strict=True,
+    )
+
+    build(config)
+
+    html = (site_dir / "index.html").read_text()
+
+    assert 'data-md-component="header"' in html
+    assert "Before the first tree block." in html
+    assert "docs/" in html
+    assert "├── index.md            # comment inside tree block" in html
+    assert "└── guides/" in html
+    assert "└── install.md      # aligned comment" in html
+    assert "Between the tree blocks." in html
+    assert "Another section" in html
+    assert "src/" in html
+    assert "└── mkdocs_treeblocks/" in html
+    assert "├── parser.py" in html
+    assert "└── renderer.py" in html
+    assert "After the second tree block." in html

@@ -94,12 +94,48 @@ print("hello")
     assert transform_markdown(markdown) == markdown
 
 
-def test_transform_invalid_tree_block_raises_tree_parse_error():
-    markdown = """```tree
+def test_transform_invalid_tree_block_reports_starting_line():
+    markdown = """Before.
+
+More text.
+
+```tree
 docs
-  bad-indent.md
+   bad-indent.md
 ```
 """
 
-    with pytest.raises(TreeParseError):
+    with pytest.raises(
+        TreeParseError,
+        match=(
+            r"tree block starting at line 5: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
+        transform_markdown(markdown)
+
+
+def test_transform_later_invalid_tree_block_reports_correct_starting_line():
+    markdown = """First:
+
+```tree
+docs
+    index.md
+```
+
+Second:
+
+```tree
+src
+   bad-indent.py
+```
+"""
+
+    with pytest.raises(
+        TreeParseError,
+        match=(
+            r"tree block starting at line 10: "
+            r"Space indentation must use multiples of four spaces\."
+        ),
+    ):
         transform_markdown(markdown)

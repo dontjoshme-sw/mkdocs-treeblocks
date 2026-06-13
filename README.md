@@ -1,5 +1,5 @@
 # mkdocs-treeblocks
-_Revised on: 06-11-2026 by: Joshua Mullenberg_
+_Revised on: 06-13-2026 by: Joshua Mullenberg_
 
 `mkdocs-treeblocks` is a MkDocs plugin for rendering readable tree-style blocks in documentation.
 
@@ -125,14 +125,13 @@ Implemented:
 - Leave non-`tree` fenced code blocks unchanged.
 - Integrate with MkDocs through the `treeblocks` plugin.
 - Raise MkDocs `PluginError` for invalid tree blocks.
-- Test parser, renderer, Markdown transformer, and MkDocs plugin behavior with `pytest`.
-
-Not implemented yet:
-
-- Richer page, file, and line-aware error messages.
+- Include the source file and tree-block starting line in MkDocs parse errors when page context is available.
+- Test parser, renderer, Markdown transformer, MkDocs plugin behavior, and Material for MkDocs compatibility with `pytest`.
+- Material for Mkdocs compatibility testing.
 
 Potential future enhancements:
 
+- Error messages include exact malformed line inside the tree block.
 - Custom HTML rendering.
 - Dedicated CSS styling.
 - Optional automatic directory slash handling.
@@ -145,7 +144,7 @@ Potential future enhancements:
 - <s>Set up the GitHub repository</s>
 - <s>Document the purpose and syntax</s>
 - <s>Add placeholder tests</s>
-- <s>Create the initial README</s/
+- <s>Create the initial README</s>
 - <s>Make the first commit</s>
  
 #### <s>Phase 2: Parser MVP</s>
@@ -166,27 +165,29 @@ Potential future enhancements:
 - <s>Replace transformed tree blocks with fenced `text` blocks</s>
 - <s>Keep the transformer independent from MkDocs integration</s>
 
-#### Phase 5: MkDocs plugin MVP
+#### </s>Phase 5: MkDocs plugin MVP</s>
 - <s>Add a minimal MkDocs plugin</s>
 - <s>Register the plugin with MkDocs</s>
 - <s>Add a minimal MkDocs fixture.</s>
 - <s>Add MkDocs integration tests.</s>
 - <s>Wrap parser failures as MkDocs `PluginError`</s>
 
-#### Phase 6: Error handling & testing
-- Add richer page/file/line-aware error messages.
-- Test with Material for MkDocs.
+#### <s>Phase 6: Error handling & testing</s>
+- <s>Add source file and tree-block starting line diagnostics for parse errors.</s>
+- <s>Test with Material for MkDocs.</s>
 
-#### Phase 7: Documentation Polish
+#### Phase 7: Publish initial release
+- Finalize package metadata in `pyproject.toml`.
+- Install build tooling and create distribution packages.
+- Test the built wheel in a clean virtual environment
+- Publish the release to PyPI
+
+#### Phase 8: Documentation Polish
 - Update current documentation.
 - Verify documentation includes installation, usage, and examples.
 - Document limitations and troubleshooting notes.
 - Set up GitHub issue and feature-request tracking.
 
-#### Phase 8: Publish initial release
-- Finalize package metadata in `pyproject.toml`.
-- Install build tooling and create distribution packages.
-- Test the built wheel in a clean virtual environment
-- Publish the release to PyPI
+
 
 

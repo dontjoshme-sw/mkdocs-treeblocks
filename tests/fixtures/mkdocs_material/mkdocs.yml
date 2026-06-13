@@ -1,0 +1,7 @@
+site_name: Treeblocks Material Test
+
+theme:
+    name: material
+    
+plugins:
+    - treeblocks
