@@ -176,16 +176,18 @@ Potential future enhancements:
 - <s>Add source file and tree-block starting line diagnostics for parse errors.</s>
 - <s>Test with Material for MkDocs.</s>
 
-#### Phase 7: Documentation Polish
+#### Phase 7: Publish initial release
+- Finalize package metadata in `pyproject.toml`.
+- Install build tooling and create distribution packages.
+- Test the built wheel in a clean virtual environment
+- Publish the release to PyPI
+
+#### Phase 8: Documentation Polish
 - Update current documentation.
 - Verify documentation includes installation, usage, and examples.
 - Document limitations and troubleshooting notes.
 - Set up GitHub issue and feature-request tracking.
 
-#### Phase 8: Publish initial release
-- Finalize package metadata in `pyproject.toml`.
-- Install build tooling and create distribution packages.
-- Test the built wheel in a clean virtual environment
-- Publish the release to PyPI
+
 
 
