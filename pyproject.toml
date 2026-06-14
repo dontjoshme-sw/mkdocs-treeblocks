@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "mkdocs-treeblocks"
-version = "0.1n.0"
+version = "0.1.0"
 description = "A MkDocs extension for rendering tree-style code blocks and directory structures."
 readme = "README.md"
 requires-python = ">=3.10"
