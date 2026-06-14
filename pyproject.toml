@@ -8,7 +8,7 @@ version = "0.1n.0"
 description = "A MkDocs extension for rendering tree-style code blocks and directory structures."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { file = "LICENSE.md" }
 authors = [
   { name = "Joshua Mullenberg" }
 ]
