@@ -27,3 +27,11 @@ site/
 .vscode/
 .idea/
 ._.DS_Store
+
+# Test and local output artifacts
+*.log
+pytest.txt
+
+# Test and local output artifacts
+*.log
+pytest.txt
